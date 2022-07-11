@@ -1,24 +1,22 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000'
+  baseURL: 'http://localhost:8000',
 })
 
 function App() {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
-    const getData = async() => {
+    const getData = async () => {
       const res = await api.get('/')
       setMessage(res.data.message)
     }
     getData()
   }, [])
 
-  return (
-    <div>{message}</div>
-  );
+  return <>{message}</>
 }
 
-export default App;
+export default App
