@@ -1,8 +1,26 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: sample_db
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpass
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    command: --port 3306
+    tty: true
 
   backend:
+    depends_on:
+      - db
     build: ./backend
     command: uvicorn app.main:app --root-path /api --proxy-headers --host 0.0.0.0 --port 8000
 
