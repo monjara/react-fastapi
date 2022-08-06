@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const api = axios.create({
-  baseURL: 'http://localhost:8000',
-})
+const config = {
+  proxy: {
+    host: 'localhost',
+    port: '8000',
+  },
+}
 
 function App() {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
     const getData = async () => {
-      const res = await api.get('/')
+      const res = await axios.get('/api/', config)
+      console.log(JSON.stringify(res))
       setMessage(res.data.message)
     }
     getData()
