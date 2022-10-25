@@ -1,4 +1,4 @@
-FROM node:16.16.0-alpine as build-step
+FROM node:16.18.0-alpine
 
 WORKDIR /app
 
@@ -7,10 +7,6 @@ COPY package.json ./
 COPY src ./src
 COPY public ./public
 
-RUN npm install
+RUN npm install -g pnpm
 RUN npm run build
 
-FROM caddy:alpine
-EXPOSE 80 
-EXPOSE 443 
-COPY --from=build-step /app/build /usr/share/caddy
