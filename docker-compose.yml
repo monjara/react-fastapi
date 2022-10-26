@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.0"
 
 services:
   db:
@@ -17,26 +17,21 @@ services:
       - 3306:3306
     command: --port 3306
     tty: true
-
-  backend:
+  api:
     depends_on:
       - db
     build: ./backend
-    command: uvicorn app.main:app --root-path /api --proxy-headers --host 0.0.0.0 --port 8000
-
-  frontend:
-    build: ./frontend
     ports:
-      - '8080:80'
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy-data:/data
-      - caddy-config:/config
-    depends_on:
-      - backend
+      - 8000:8000
+  client:
+    build: ./frontend
+    volumes: 
+      - ./frontend:/app:cached
     environment:
+      - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true
-
-volumes:
-  caddy-data:
-  caddy-config:
+    tty: true
+    ports:
+      - 8080:8080
+    command: pnpm run dev
+  
