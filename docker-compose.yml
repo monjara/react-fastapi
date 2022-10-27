@@ -20,6 +20,8 @@ services:
     depends_on:
       - db
     build: ./backend
+    volumes:
+      - ./backend/app:/code/app:cached
     ports:
       - 8000:8000
   client:
