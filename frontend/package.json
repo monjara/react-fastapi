@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "container:build": "docker compose build",
+    "container:up": "docker compose up",
+    "client:restart": "docker compose restart client"
   },
   "eslintConfig": {
     "extends": [
